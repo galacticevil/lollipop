@@ -1,29 +1,4 @@
 <?php
-
-//// define our directory seperator
-//            define('MDS', DIRECTORY_SEPARATOR);
-//            // define our secured constant
-//            define('MSECURED', 1);
-//            // automatically set error reporting off for safety
-//            //error_reporting(-1);
-//            error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
-//            ini_set('display_errors', 'Off');
-//            ini_set('log_errors ', 'On');
-//            // docroot
-//            $trace = debug_backtrace();
-//            // will automatically find the doc root, no matter where it lives
-//            // will be the very last element in our trace
-//            $doc_root = array_pop($trace);
-//            $doc_root = dirname($doc_root['file']);
-//            if (substr($doc_root, 0, 1) !== MDS) {
-//                // make sure we're not talking about a Windows path
-//                if (!preg_match('/^[a-zA-Z]\:/', $doc_root)) {
-//                    $doc_root = MDS . $doc_root;
-//                }
-//            }
-//            define('MROOT', $doc_root);
-//
-//            unset($trace, $doc_root);
 // global namespace
     include('Functions.php');
     include('Autoloader.php');
@@ -31,7 +6,7 @@
     class Lollipop {
 
         const SIGNATURE = 'Lollipop Micro Framework';
-        const VERSION = '1.0 RC1';
+        const VERSION = '0.1 Beta';
         const POST = 'post';
         const PUT = 'put';
         const GET = 'get';
@@ -41,15 +16,15 @@
         const CLI = 'cli';
         const HTTP = 'http';
         const AJAX = 'ajax';
-        const MM_HEADERS = 'MM_';
+        const LP_HEADERS = 'LP_';
         const BASIC = 'basic';
         const DIGEST = 'digest';
         const SIGNED = 'signed'; // preferred method of authenticating via a RESTful service
-        const AUTH_SCHEMA = 'MEGA'; // used for http authentication
+        const AUTH_SCHEMA = 'LPOP'; // used for http authentication
         const HTTPS_NEVER = 'never'; // never switch https
         const HTTPS_SWITCH = 'switch'; // honour https switching
         const HTTPS_ALWAYS = 'always'; // always use https
-        const SECURED = "DEFINED('MSECURED') or header('location: 404');";
+        const SECURED = "DEFINED('LPSECURED') or header('location: 404');";
 
         public static $Instance = null; // holds our Lollipop registry
         public $debug_output = null; 
@@ -138,7 +113,7 @@
                 // does it exist, and is there a value there?
                 if ($pos !== false && $v) {
                     // clean up for mm headers ie. [X_][custom]
-                    $k = str_replace(\Lollipop::MM_HEADERS, '', $k);
+                    $k = str_replace(\Lollipop::LP_HEADERS, '', $k);
                     $custom_headers[strtolower(substr($k, ($pos + 3)))] = $v;
                 }
             }
@@ -269,9 +244,9 @@
         public static function init() {
             //ob_start();
             // define our directory seperator
-            define('MDS', DIRECTORY_SEPARATOR);
+            define('LDS', DIRECTORY_SEPARATOR);
             // define our secured constant
-            define('MSECURED', 1);
+            define('LPSECURED', 1);
             // automatically set error reporting off for safety
             //error_reporting(-1);
             error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
@@ -283,13 +258,13 @@
             // will be the very last element in our trace
             $doc_root = array_pop($trace);
             $doc_root = dirname($doc_root['file']);
-            if (substr($doc_root, 0, 1) !== MDS) {
+            if (substr($doc_root, 0, 1) !== LDS) {
                 // make sure we're not talking about a Windows path
                 if (!preg_match('/^[a-zA-Z]\:/', $doc_root)) {
-                    $doc_root = MDS . $doc_root;
+                    $doc_root = LDS . $doc_root;
                 }
             }
-            define('MROOT', $doc_root);
+            define('LPROOT', $doc_root);
 
             unset($trace, $doc_root);
 //            // initialise the singleton
@@ -407,9 +382,9 @@
 
         public static function path($path) {
             // have we passed a full path?
-            $path = (substr($path, 0, strlen(MROOT)) == MROOT) ? $path : MROOT . MDS . $path;
+            $path = (substr($path, 0, strlen(LPROOT)) == LPROOT) ? $path : LPROOT . LDS . $path;
             // do a replace on these if they're in the path - also reduce the number of SDS to 1 between folders
-            $path = preg_replace('{\\' . MDS . '+}', MDS, str_replace(array("/", "\\"), MDS, $path));
+            $path = preg_replace('{\\' . LDS . '+}', LDS, str_replace(array("/", "\\"), LDS, $path));
             return $path;
         }
 

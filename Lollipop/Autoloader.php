@@ -42,17 +42,17 @@ namespace Lollipop {
                 $fexplode = explode('_', $filename);
                 $ns = array_shift($fexplode);
                 if (isset($fexplode[0])) {
-                    $filename = (count($fexplode) > 1) ? implode(MDS, $fexplode) : $fexplode[0];
+                    $filename = (count($fexplode) > 1) ? implode(LDS, $fexplode) : $fexplode[0];
                 }
             }
 
             if ($ns == $this->namespace) {
                 if (isset($explode[0])) {
-                    $path = (count($explode) > 1) ? MDS . implode(MDS, $explode) : MDS . $explode[0];
+                    $path = (count($explode) > 1) ? LDS . implode(LDS, $explode) : LDS . $explode[0];
                 } else {
                     $path = null;
                 }
-                $filepath = $this->path . $path . MDS . str_replace('_', MDS, $filename) . '.php';
+                $filepath = $this->path . $path . LDS . str_replace('_', LDS, $filename) . '.php';
 
                 // now we can test whether the file exists
                 if (is_file($filepath)) {
